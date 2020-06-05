@@ -1,0 +1,63 @@
+{% extends 'shared/base.html' %}
+{% block title %}My-Hit | All Queries{% endblock %}
+{% load static %}
+{% block content %}
+
+  <h3 class="blank1">Queries</h3>
+  <p><a href="{% url 'queries:add_query' %}" class="btn btn-success">Create message</a></p>
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message }}
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% if obj %}
+ <div class="row">
+
+  {% for q in obj %}
+
+
+   <div class="xs tabls">
+     <div class="panel-body1">
+      <h4>{{q.title|title}}</h4>
+      <small><strong>Date:</strong> {{q.timestamp}}</small>
+      <p><strong>Message created by:</strong> {{q.created_by.first_name|title}} {{q.created_by.last_name|title}}</p>
+      <p><strong>Department: {{q.department.name}}</strong></p>
+      <h5><strong>Message:</strong></h5>
+      <p>{{q.query_description}}</p>
+      <a href="{% url 'queries:get_query_by_id' q.pk %}">Message details</a> 
+      {% if request.user.id == q.created_by.id  %} 
+               
+      | <a href="{% url 'queries:delete_query' q.pk%}" style="padding: 3px 0 0 3px;">  <i class="fa fa-lg fa-trash-o" aria-hidden="true" style="color:red;"></i></a>
+     {% endif %}
+     </div>
+  </div>
+  {% endfor %}
+ </div>
+</div>
+  <div class="pagination pagination-center">
+    <span class="step-links">
+            {% if obj.has_previous %}
+                    <a href="?page=1" class="dt-pagination">&laquo; first</a>
+                    <a href="?page={{ obj.previous_page_number }}" class="dt-pagination">previous</a>
+            {% endif %}
+
+            <span class="current dt-pagination">
+                    Page {{ obj.number }} of {{obj.paginator.num_pages }}.
+            </span>
+
+            {% if obj.has_next %}
+                    <a href="?page={{ obj.next_page_number }}" class="dt-pagination">next</a>
+                    <a href="?page={{ obj.paginator.num_pages }}"  class="dt-pagination">last &raquo;</a>
+            {% endif %}
+    </span>
+</div>
+  {% else %}
+  <h3>No Queries Available.</h3>
+  {% endif %}
+
+{% endblock %}

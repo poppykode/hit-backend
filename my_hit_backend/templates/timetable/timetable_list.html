@@ -1,0 +1,60 @@
+{% extends 'shared/base.html' %}
+{% block title %}My-Hit | All Timetables{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="tables">
+
+    <div class="panel-body widget-shadow">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+  
+        {% if obj %}
+        <div class="xs tabls">
+            <h3 class="blank1">Timetables</h3>
+            <p  style="margin-bottom:30px;"><a href="{% url 'timetable:upload_time' %}" class="btn btn-warning">Upload Timetable</a></p>
+            </div>
+        <div class="xs tabls">
+            <div class="bs-example4" data-example-id="contextual-table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Download Timetable</th>
+                        <th>Created On</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                     
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in obj %}
+                    <tr>
+                        <td>{{u.course.name}}</td>
+                        <td><a href="{{u.file_name.url}}" target="_blank">PDF</a></td>
+                        <td>{{u.timestamp}}</td>
+                        <td><a href="{% url 'timetable:timetable_update' u.pk %}"><i class="fa fa-pencil" aria-hidden="true" style="color:orange;"></i></a></td>
+                        <td><a href="{% url 'timetable:timetable_delete' u.pk %}"><i class="fa fa-trash-o" aria-hidden="true"  style="color:red;"></i></a></td>
+                          
+                    </tr>
+                    {% endfor %}
+                </tbody>
+               
+            </table>
+        </div>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

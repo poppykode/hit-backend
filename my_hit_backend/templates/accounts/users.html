@@ -1,0 +1,80 @@
+{% extends 'shared/base.html' %}
+{% block title %}My-Hit | All Events{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="tables">
+    <h3 class="blank1">Users</h3>
+
+    <div class="panel-body widget-shadow">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+  
+        {% if obj %}
+        <div class="xs tabls">
+            <div class="bs-example4" data-example-id="contextual-table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Student Number</th>
+                        <th>Register Date</th>
+                        <th>Course</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Paid</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in obj %}
+                    <tr>
+                        <td>{{u.student_number}}</td>
+                        <td>{{u.date_joined}}</td>
+                        <td>{{u.course.name}}</td>
+                        <td>{{u.first_name|title}}  {{u.last_name|title}}</td>
+                        <td>{{u.email}}</td>
+                        
+                        {% if u.paid %}
+                        <td><a href="{% url 'accounts:toggle' u.pk %}"><i class="fa fa-lg fa-circle" style="color: green;"></i></a></td>
+                        {% else %}
+                        <td><a href="{% url 'accounts:toggle' u.pk %}"><i class="fa fa-lg fa-circle" style="color: red;"></i></a></td>
+                        {% endif %}
+                       
+                    </tr>
+                    {% endfor %}
+                </tbody>
+               
+            </table>
+            <div class="pagination pagination-center">
+                <span class="step-links">
+                        {% if obj.has_previous %}
+                                <a href="?page=1" class="dt-pagination">&laquo; first</a>
+                                <a href="?page={{ obj.previous_page_number }}" class="dt-pagination">previous</a>
+                        {% endif %}
+            
+                        <span class="current dt-pagination">
+                                Page {{ obj.number }} of {{obj.paginator.num_pages }}.
+                        </span>
+            
+                        {% if obj.has_next %}
+                                <a href="?page={{ obj.next_page_number }}" class="dt-pagination">next</a>
+                                <a href="?page={{ obj.paginator.num_pages }}"  class="dt-pagination">last &raquo;</a>
+                        {% endif %}
+                </span>
+            </div>
+        </div>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}
