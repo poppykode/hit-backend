@@ -2,6 +2,27 @@
 {% block title %}My-Hit | {{obj.name|title}}{% endblock %}
 {% load static %}
 {% block content %}
+<h3 class="blank1">{{obj.name|title}}</h3>
+<div class="xs tabls">
+    <div class="panel-body1">
+        <div class="row">
+            <div class="col-md-5">
+                <img src="{{obj.image.url}}" alt="{{obj.name|title}}" class="img-responsive thumbnail">
 
+            </div>
+            <div class="col-md-7">
+                <h3><strong>Location:</strong> {{obj.location|title}} </h3>
+                <p><strong>Date:</strong>{{obj.date|date:"M d Y h:m A"}}</p>
+                <br>
+                <p><strong>Description:</strong> </p>
+                <p>{{obj.description}}</p>
+                <br>
+                <a href="{% url 'events:all' %}" class="btn btn-success">Back to events</a>
+
+            </div>
+        </div>
+
+    </div>
+</div>
 
 {% endblock %}

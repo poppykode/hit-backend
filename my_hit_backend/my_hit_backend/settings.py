@@ -36,7 +36,7 @@ SECRET_KEY = 'gp_py+741w-4#!da#+h86*jyf_v3#&v-!-0*x%hs)+gcc)_(pm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.43.15']
+ALLOWED_HOSTS = []
 # ALLOWED_HOSTS = ['192.168.100.40']
 # ALLOWED_HOSTS = ['192.168.43.159']
 
@@ -159,8 +159,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 # BASE_URL = 'http://192.168.100.40:8000'
 # BASE_URL = 'http://192.168.43.159:8000'
-# BASE_URL = 'http://127.0.0.1:8000'
-BASE_URL = 'http://192.168.43.15:8000'
+BASE_URL = 'http://127.0.0.1:8000'
+# BASE_URL = 'http://192.168.43.15:8000'
 
 
 LOGOUT_REDIRECT_URL = '/'
