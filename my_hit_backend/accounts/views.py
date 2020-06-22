@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import auth
 from django.contrib import messages
+from pyfcm import FCMNotification
 from accounts.models import User
 
 # Create your views here.
@@ -14,12 +15,12 @@ from accounts.models import User
 def login_view(request):
     if request.user:
         return redirect('dashboard:home')
-    template_name = 'accounts/login.html'
+    template_name = 'registration/login.html'
     return render(request, template_name)
 
 
 def login(request):
-    template_name = 'accounts/login.html'
+    template_name = 'registration/login.html'
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
     user = auth.authenticate(username=username, password=password)
@@ -60,4 +61,3 @@ def toggle_fees_status(request, pk):
         qs.save()
         messages.success(request, 'Status successfully activated.')
         return redirect(reverse('accounts:users'))
-

@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from cloud_messaging.models import CloudMessaging
+from pyfcm import FCMNotification
 from .models import Event
 from .forms import EventForm
 
@@ -44,11 +46,31 @@ def event_details(request, pk):
 @login_required
 def event_create(request):
     template_name = 'events/event_create.html'
+    push_service = FCMNotification(
+        api_key="AAAAKq2O4e8:APA91bHjUnM7TTTqsb5F1xMz-H35oyjBTvaBQGRY5nYO58EVFEFmA0Z2yOlZSyIsfpAXBlsrRDNQwTUDNWKPGD2lquvDHijWOCXAtKlN7w2C-lf8smBZsy5saW7oejtT8u5sZvlLZU8-")
+    name = request.POST.get('name')
+    description = request.POST.get('description')
     if request.method == 'POST':
         form = EventForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Event successfully created.')
+
+            try:
+                qs_receipiants = CloudMessaging.objects.all()
+                registration_ids = []
+                for e in qs_receipiants:
+                    registration_ids.append(e.fcm_token)
+                # Send to multiple devices by passing a list of ids.
+                # registration_ids = ["<device registration_id 1>", "<device registration_id 2>", ...]
+                message_title = name
+                message_body = description
+                result = push_service.notify_multiple_devices(
+                    registration_ids=registration_ids, message_title=message_title, message_body=message_body)
+                print('result')
+                print(result)
+            except Exception as e:
+                print(e)
+            messages.success(request, 'Event successfully created. ')
             return redirect(reverse('events:all'))
     else:
         form = EventForm()

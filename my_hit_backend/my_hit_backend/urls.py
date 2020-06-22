@@ -14,28 +14,31 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from accounts.views import login_view
 
 urlpatterns = [
-    path('',login_view,name="login_view"),
+    path('', login_view, name="login_view"),
     path('admin/', admin.site.urls),
-    path('dashboard/',include('dashboard.urls')),
-    path('accounts/p/',include('accounts.urls')),
-    path('accounts/',include('django.contrib.auth.urls')),
-    path('queries/',include('queries.urls')),
-    path('events/',include('events.urls')),
-    path('timetable/',include('timetable.urls')),
-    path('accommodation/',include('accommodation.urls')),
+    path('dashboard/', include('dashboard.urls')),
+    path('accounts/p/', include('accounts.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('queries/', include('queries.urls')),
+    path('events/', include('events.urls')),
+    path('timetable/', include('timetable.urls')),
+    path('accommodation/', include('accommodation.urls')),
     # APIs
-    path('api/v1/course/',include('timetable.api.urls')),
-    path('api/v1/accounts/',include('accounts.api.urls')),
-    path('api/v1/events/',include('events.api.urls')),
-    path('api/v1/accomodation/',include('accommodation.api.urls')),
-    path('api/v1/query/',include('queries.api.urls')),
-    
+    path('api/v1/course/', include('timetable.api.urls')),
+    path('api/v1/accounts/', include('accounts.api.urls')),
+    path('api/v1/events/', include('events.api.urls')),
+    path('api/v1/accomodation/', include('accommodation.api.urls')),
+    path('api/v1/query/', include('queries.api.urls')),
+    path('api/v1/fcm/', include('cloud_messaging.api.urls')),
+    path('api/v1/canteen/', include('canteen.api.urls')),
+
 ]
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
